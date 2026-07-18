@@ -1,0 +1,34 @@
+# --- ENTORNOS VIRTUALES (Imprescindible) ---
+# Ignora las librerías instaladas localmente para que no saturen el repositorio
+.venv/
+venv/
+env/
+ENV/
+
+# --- ARCHIVOS SENSIBLES Y CONFIGURACIÓN (Seguridad) ---
+# Contienen contraseñas, llaves API y variables de entorno secretas
+.env
+instance/
+.webassets-cache
+
+# NOTA: NO ignores `.flaskenv`. Este archivo guarda configuraciones de desarrollo 
+# no secretas (ej. FLASK_APP=app.py) y sí debe compartirse en Git.
+
+# --- CACHÉ DE PYTHON ---
+# Archivos autogenerados por Python al ejecutar código
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- PRUEBAS Y COBERTURA ---
+# Carpetas generadas al correr tests con pytest o unittest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- CONFIGURACIÓN DEL EDITOR (Opcional) ---
+# Archivos específicos de tu entorno de desarrollo
+.vscode/
+.idea/
+*.suo
+*.ntvs*

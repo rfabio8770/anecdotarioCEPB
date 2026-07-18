@@ -63,7 +63,7 @@ def guardar_anotacion():
     
     return redirect(url_for('listar_alumnos', id_curso=alumno.curso))
 
-
+# Administración de Cursos ABM de cursos
 @app.route('/admin/cursos', methods=['GET', 'POST'])
 def admin_cursos():
     if request.method == 'POST':
@@ -92,7 +92,40 @@ def editar_curso(id):
         return redirect(url_for('admin_cursos'))
     return render_template('editar_curso.html', curso=curso)
 
+# Administrar alumnos ABM de Alumnos
+@app.route('/admin/alumnos', methods=['GET', 'POST'])
+def admin_alumnos():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        nro_lista = request.form.get('nro_lista')
+        id_curso = request.form.get('id_curso')
+        nuevo_alumno = Alumno(nombre=nombre, nro_lista=nro_lista, curso=id_curso)
+        db.session.add(nuevo_alumno)
+        db.session.commit()
+        return redirect(url_for('admin_alumnos'))
+    
+    alumnos = Alumno.query.all()
+    cursos = Curso.query.all()
+    return render_template('admin_alumnos.html', alumnos=alumnos, cursos=cursos)
 
+@app.route('/admin/alumnos/eliminar/<int:id>')
+def eliminar_alumno(id):
+    alumno = Alumno.query.get_or_404(id)
+    db.session.delete(alumno)
+    db.session.commit()
+    return redirect(url_for('admin_alumnos'))
+
+@app.route('/admin/alumnos/editar/<int:id>', methods=['GET', 'POST'])
+def editar_alumno(id):
+    alumno = Alumno.query.get_or_404(id)
+    if request.method == 'POST':
+        alumno.nombre = request.form.get('nombre')
+        alumno.nro_lista = request.form.get('nro_lista')
+        alumno.curso = request.form.get('id_curso')
+        db.session.commit()
+        return redirect(url_for('admin_alumnos'))
+    cursos = Curso.query.all()
+    return render_template('editar_alumno.html', alumno=alumno, cursos=cursos)
 if __name__ == "__main__":
     with app.app_context():
         db.create_all() # Esto crea las tablas si no existen

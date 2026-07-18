@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar Alumno{% endblock %}
+
+{% block content %}
+<form method="POST" class="row g-3 mb-4">
+    <div class="col-auto">
+        <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+    </div>
+    <div class="col-auto">
+        <input type="number" name="nro_lista" class="form-control" placeholder="Nro" required>
+    </div>
+    <div class="col-auto">
+        <select name="id_curso" class="form-select" required>
+            {% for curso in cursos %}
+            <option value="{{ curso.id_curso }}">{{ curso.nombre_curso }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Agregar Alumno</button>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <!-- Encabezados: Nro, Nombre, Curso, Acciones -->
+    {% for alumno in alumnos %}
+    <tr>
+        <td>{{ alumno.nro_lista }}</td>
+        <td>{{ alumno.nombre }}</td>
+        <td>{{ alumno.curso_rel.nombre_curso }}</td> <!-- Usando backref -->
+        <td>
+            <a href="{{ url_for('editar_alumno', id=alumno.id) }}" class="btn btn-warning btn-sm">Editar</a>
+            <a href="{{ url_for('eliminar_alumno', id=alumno.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro?')">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
