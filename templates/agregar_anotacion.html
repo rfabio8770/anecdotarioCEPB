@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Anotación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Nueva Anotación</h2>
+        <p>Alumno: <strong>{{ alumno.nombre }}</strong></p>
+        
+        <form action="{{ url_for('guardar_anotacion') }}" method="POST">
+            <input type="hidden" name="id_alumno" value="{{ alumno.id }}">
+            
+            <div class="mb-3">
+                <label for="id_anecdota" class="form-label">Tipo de Anotación</label>
+                <select class="form-select" id="id_anecdota" name="id_anecdota" required>
+                    {% for item in tipos_anecdota %}
+                        <option value="{{ item.id_anecdota }}">{{ item.descripcion }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción Detallada</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Guardar Anotación</button>
+            <a href="{{ url_for('listar_alumnos', id_curso=alumno.curso) }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

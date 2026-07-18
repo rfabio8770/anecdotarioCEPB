@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Curso{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <div class="mb-3">
+        <label>Nuevo nombre del curso:</label>
+        <input type="text" name="nombre_curso" class="form-control" value="{{ curso.nombre_curso }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="{{ url_for('admin_cursos') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
