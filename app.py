@@ -12,6 +12,12 @@ def index():
     #return render_template('index.html', cursos=cursos)
     return render_template('index.html')
 
+@app.route('/anotacion')
+def admin_anotacion():
+    cursos = Curso.query.all()
+    print(cursos)
+    return render_template('admin_anotacion.html', cursos=cursos)
+
 @app.route('/curso/<int:id_curso>')
 def listar_alumnos(id_curso):
     curso = Curso.query.get_or_404(id_curso)
@@ -126,6 +132,37 @@ def editar_alumno(id):
         return redirect(url_for('admin_alumnos'))
     cursos = Curso.query.all()
     return render_template('editar_alumno.html', alumno=alumno, cursos=cursos)
+
+# Administracion del anecdotario: Tipos de anecdotas ABM
+@app.route('/admin/anecdotas', methods=['GET', 'POST'])
+def admin_anecdotas():
+    if request.method == 'POST':
+        desc = request.form.get('descripcion')
+        nueva = Anecdotario(descripcion=desc)
+        db.session.add(nueva)
+        db.session.commit()
+        return redirect(url_for('admin_anecdotas'))
+    
+    lista = Anecdotario.query.all()
+    return render_template('admin_anecdotas.html', tipos=lista)
+
+@app.route('/admin/anecdotas/eliminar/<int:id>')
+def eliminar_anecdota(id):
+    item = Anecdotario.query.get_or_404(id)
+    db.session.delete(item)
+    db.session.commit()
+    return redirect(url_for('admin_anecdotas'))
+
+@app.route('/admin/anecdotas/editar/<int:id>', methods=['GET', 'POST'])
+def editar_anecdota(id):
+    item = Anecdotario.query.get_or_404(id)
+    if request.method == 'POST':
+        item.descripcion = request.form.get('descripcion')
+        db.session.commit()
+        return redirect(url_for('admin_anecdotas'))
+    return render_template('editar_anecdota.html', item=item)
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all() # Esto crea las tablas si no existen

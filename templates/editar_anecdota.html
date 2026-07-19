@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - Registro Anecdótico{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+    <form method="POST">
+    <div class="mb-3">
+        <label>Descripción del Tipo de Anécdota:</label>
+        <input type="text" name="descripcion" class="form-control" value="{{ item.descripcion }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('admin_anecdotas') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+</div>
+{% endblock %}
